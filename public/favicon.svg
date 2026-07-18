@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <rect width="100" height="100" rx="16" fill="#FF5A00" />
-  <!-- Geometric letter 'S' (black) -->
-  <path d="M 15 30 H 45 V 40 H 26 V 46 H 45 V 70 H 15 V 60 H 34 V 54 H 15 Z" fill="#000000" />
-  <!-- Geometric letter 'A' (black) -->
-  <path d="M 55 30 H 85 V 70 H 75 V 56 H 65 V 70 H 55 Z M 65 42 H 75 V 50 H 65 Z" fill-rule="evenodd" fill="#000000" />
+  <!-- Geometric letter 'S' (white) -->
+  <path d="M 15 30 H 45 V 40 H 26 V 46 H 45 V 70 H 15 V 60 H 34 V 54 H 15 Z" fill="#FFFFFF" />
+  <!-- Geometric letter 'A' (white) -->
+  <path d="M 55 30 H 85 V 70 H 75 V 56 H 65 V 70 H 55 Z M 65 42 H 75 V 50 H 65 Z" fill-rule="evenodd" fill="#FFFFFF" />
 </svg>
