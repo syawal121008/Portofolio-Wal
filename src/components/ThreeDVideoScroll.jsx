@@ -193,7 +193,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                   lineHeight: 1.05,
                   fontWeight: 800,
                   marginBottom: '20px',
-                  color: 'var(--text-white)',
+                  color: '#FFFFFF',
                   textShadow: '0 4px 12px rgba(0,0,0,0.7)'
                 }}>
                   {heroT.greeting} <br />
@@ -203,7 +203,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                 {/* Subtitle */}
                 <p style={{
                   fontSize: 'clamp(1.05rem, 1.8vw, 1.35rem)',
-                  color: 'var(--text-white)',
+                  color: '#FFFFFF',
                   maxWidth: '700px',
                   lineHeight: 1.4,
                   marginBottom: '28px',
@@ -224,21 +224,21 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                     <Code style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '4px' }} size={20} />
                     <div>
-                      <h3 style={{ fontSize: '0.95rem', marginBottom: '4px', fontWeight: '700', color: 'var(--text-white)' }}>{heroT.trait1_title}</h3>
+                      <h3 style={{ fontSize: '0.95rem', marginBottom: '4px', fontWeight: '700', color: '#FFFFFF' }}>{heroT.trait1_title}</h3>
                       <p style={{ fontSize: '0.85rem', color: '#dddddd', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>{heroT.trait1_desc}</p>
                     </div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                     <Shield style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '4px' }} size={20} />
                     <div>
-                      <h3 style={{ fontSize: '0.95rem', marginBottom: '4px', fontWeight: '700', color: 'var(--text-white)' }}>{heroT.trait2_title}</h3>
+                      <h3 style={{ fontSize: '0.95rem', marginBottom: '4px', fontWeight: '700', color: '#FFFFFF' }}>{heroT.trait2_title}</h3>
                       <p style={{ fontSize: '0.85rem', color: '#dddddd', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>{heroT.trait2_desc}</p>
                     </div>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
                     <Cpu style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '4px' }} size={20} />
                     <div>
-                      <h3 style={{ fontSize: '0.95rem', marginBottom: '4px', fontWeight: '700', color: 'var(--text-white)' }}>{heroT.trait3_title}</h3>
+                      <h3 style={{ fontSize: '0.95rem', marginBottom: '4px', fontWeight: '700', color: '#FFFFFF' }}>{heroT.trait3_title}</h3>
                       <p style={{ fontSize: '0.85rem', color: '#dddddd', textShadow: '0 1px 3px rgba(0,0,0,0.8)' }}>{heroT.trait3_desc}</p>
                     </div>
                   </div>
@@ -261,7 +261,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                   <button
                     onClick={() => scrollToSection('contact')}
                     className="btn-secondary"
-                    style={{ backgroundColor: 'rgba(0,0,0,0.5)', borderColor: 'var(--border)', color: 'var(--text-white)' }}
+                    style={{ backgroundColor: 'rgba(0,0,0,0.5)', borderColor: '#444444', color: '#FFFFFF' }}
                   >
                     {heroT.btn_contact}
                   </button>
@@ -285,7 +285,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
                 cursor: 'pointer',
-                color: 'var(--text-white)'
+                color: '#FFFFFF'
               }} 
               onClick={() => scrollToSection('marquee')}
             >
@@ -327,7 +327,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
               <h2 style={{
                 fontSize: 'clamp(1.5rem, 4.5vw, 3.5rem)',
                 fontWeight: '900',
-                color: 'var(--text-white)',
+                color: '#FFFFFF',
                 textTransform: 'uppercase',
                 letterSpacing: '-0.02em',
                 lineHeight: '1.2',
