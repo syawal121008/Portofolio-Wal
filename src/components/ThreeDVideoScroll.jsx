@@ -117,6 +117,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
             width: '100%',
             height: '100%',
             objectFit: 'cover',
+            objectPosition: '75% center',
             pointerEvents: 'none',
             display: 'block'
           }}

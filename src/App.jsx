@@ -5,13 +5,14 @@ import Experience from './components/Experience';
 import ProjectsSection from './components/ProjectsSection';
 import Contact from './components/Contact';
 import { translations } from './utils/translations';
-import { Github, Mail, ArrowUp, Instagram, Sun, Moon } from 'lucide-react';
+import { Github, Mail, ArrowUp, Instagram, Sun, Moon, Menu, X } from 'lucide-react';
 
 function App() {
   const [lang, setLang] = useState('ID');
   const [theme, setTheme] = useState('dark');
   const [scrollProgress, setScrollProgress] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const t = translations[lang];
 
@@ -105,7 +106,7 @@ function App() {
           {/* Right Header Panel (Nav + Theme Switcher + Lang switcher) */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
             {/* Navigation links */}
-            <nav style={{ display: 'flex', gap: '24px' }}>
+            <nav className="desktop-nav" style={{ display: 'flex', gap: '24px' }}>
               <span 
                 onClick={() => scrollToSection('projects')}
                 style={{
@@ -238,9 +239,76 @@ function App() {
                 </button>
               </div>
             </div>
+
+            {/* Mobile Menu Toggle Button */}
+            <button 
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="mobile-nav-toggle"
+              style={{
+                background: 'transparent',
+                border: '1px solid var(--border)',
+                color: 'var(--text-white)',
+                cursor: 'pointer',
+                padding: '6px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: 'var(--card-bg)',
+                transition: 'all 0.3s ease'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
+              onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+              title="Menu"
+            >
+              {menuOpen ? <X size={15} /> : <Menu size={15} />}
+            </button>
           </div>
         </div>
       </header>
+
+      {/* Mobile Drawer Menu */}
+      {menuOpen && (
+        <div style={{
+          position: 'fixed',
+          top: '73px', // matches header height
+          left: 0,
+          right: 0,
+          backgroundColor: 'var(--header-bg)',
+          backdropFilter: 'blur(12px)',
+          borderBottom: '1px solid var(--border)',
+          zIndex: 89,
+          padding: '24px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '20px',
+          boxShadow: '0 10px 20px rgba(0,0,0,0.5)'
+        }}>
+          <span 
+            onClick={() => { scrollToSection('projects'); setMenuOpen(false); }}
+            style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--text-white)', textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer' }}
+          >
+            {t.nav.projects}
+          </span>
+          <span 
+            onClick={() => { scrollToSection('marquee'); setMenuOpen(false); }}
+            style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--text-white)', textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer' }}
+          >
+            {t.nav.skills}
+          </span>
+          <span 
+            onClick={() => { scrollToSection('experience'); setMenuOpen(false); }}
+            style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--text-white)', textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer' }}
+          >
+            {t.nav.experience}
+          </span>
+          <span 
+            onClick={() => { scrollToSection('contact'); setMenuOpen(false); }}
+            style={{ fontSize: '1rem', fontWeight: '700', color: 'var(--text-white)', textTransform: 'uppercase', letterSpacing: '0.05em', cursor: 'pointer' }}
+          >
+            {t.nav.contact}
+          </span>
+        </div>
+      )}
 
       {/* Main Content */}
       <main>
