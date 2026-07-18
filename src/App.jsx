@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Hero from './components/Hero';
 import SkillsMarquee from './components/SkillsMarquee';
+import ThreeDVideoScroll from './components/ThreeDVideoScroll';
 import Experience from './components/Experience';
 import ProjectsSection from './components/ProjectsSection';
 import Contact from './components/Contact';
@@ -246,6 +247,7 @@ function App() {
       <main>
         <Hero lang={lang} t={t.hero} />
         <SkillsMarquee lang={lang} t={t.skills} />
+        <ThreeDVideoScroll lang={lang} />
         <Experience lang={lang} t={t.experience} />
         <ProjectsSection lang={lang} t={t.projects} />
         <Contact lang={lang} t={t.contact} />
