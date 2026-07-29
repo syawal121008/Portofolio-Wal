@@ -6,6 +6,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -13,8 +14,17 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
   };
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || isMobile) return;
 
     const handleLoadedMetadata = () => {
       video.currentTime = 0;
@@ -82,6 +92,133 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
   // Calculate Hero opacity and transform (slides out between scroll progress 0.0 and 0.20)
   const heroOpacity = Math.max(0, 1 - scrollProgress * 5);
   const heroTranslateY = -scrollProgress * 150; // slide up slightly
+
+  // If on mobile (<= 768px), render a clean static Hero layout matching user request
+  if (isMobile) {
+    return (
+      <section style={{
+        minHeight: '85vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '60px 0 40px 0',
+        position: 'relative',
+        backgroundColor: 'var(--bg)',
+        borderBottom: '1px solid var(--border)',
+        transition: 'background-color 0.3s ease'
+      }}>
+        <div className="container">
+          <motion.div
+            key={lang}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            {/* Status Badge */}
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              border: '1px solid var(--accent)',
+              padding: '6px 12px',
+              fontSize: '0.8rem',
+              fontWeight: '600',
+              color: 'var(--accent)',
+              marginBottom: '24px',
+              textTransform: 'uppercase',
+              letterSpacing: '0.05em'
+            }}>
+              <span style={{
+                width: '6px',
+                height: '6px',
+                backgroundColor: 'var(--accent)',
+                borderRadius: '50%',
+                display: 'inline-block'
+              }} />
+              {heroT.badge}
+            </div>
+
+            {/* Main Heading */}
+            <h1 style={{
+              fontSize: 'clamp(2.2rem, 8vw, 3.5rem)',
+              lineHeight: 1.1,
+              fontWeight: 800,
+              marginBottom: '20px',
+              color: 'var(--text-white)'
+            }}>
+              {heroT.greeting} <br />
+              <span style={{ color: 'var(--accent)' }}>Syawaludin Alhabsy</span>
+            </h1>
+
+            {/* Subtitle */}
+            <p style={{
+              fontSize: '1rem',
+              color: 'var(--text)',
+              maxWidth: '700px',
+              lineHeight: 1.5,
+              marginBottom: '28px',
+              fontWeight: '400'
+            }}>
+              {heroT.description}
+            </p>
+
+            {/* Key Traits Grid */}
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr',
+              gap: '16px',
+              marginBottom: '36px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <Code style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '4px' }} size={20} />
+                <div>
+                  <h3 style={{ fontSize: '0.95rem', marginBottom: '4px', fontWeight: '700', color: 'var(--text-white)' }}>{heroT.trait1_title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text)' }}>{heroT.trait1_desc}</p>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <Shield style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '4px' }} size={20} />
+                <div>
+                  <h3 style={{ fontSize: '0.95rem', marginBottom: '4px', fontWeight: '700', color: 'var(--text-white)' }}>{heroT.trait2_title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text)' }}>{heroT.trait2_desc}</p>
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                <Cpu style={{ color: 'var(--accent)', flexShrink: 0, marginTop: '4px' }} size={20} />
+                <div>
+                  <h3 style={{ fontSize: '0.95rem', marginBottom: '4px', fontWeight: '700', color: 'var(--text-white)' }}>{heroT.trait3_title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text)' }}>{heroT.trait3_desc}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Call-to-actions */}
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '12px'
+            }}>
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="btn-primary"
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
+                {heroT.btn_projects}
+                <ArrowRight size={18} />
+              </button>
+              <button
+                onClick={() => scrollToSection('contact')}
+                className="btn-secondary"
+                style={{ width: '100%', justifyContent: 'center' }}
+              >
+                {heroT.btn_contact}
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <div 
