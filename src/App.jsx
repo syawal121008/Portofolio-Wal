@@ -6,6 +6,7 @@ import ProjectsSection from './components/ProjectsSection';
 import Contact from './components/Contact';
 import { translations } from './utils/translations';
 import { Github, Mail, ArrowUp, Instagram, Sun, Moon, Menu, X } from 'lucide-react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 
 function App() {
   const [lang, setLang] = useState('ID');
@@ -397,6 +398,8 @@ function App() {
         </button>
       )}
 
+      {/* Vercel Speed Insights */}
+      <SpeedInsights />
     </div>
   );
 }
