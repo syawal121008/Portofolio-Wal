@@ -1,30 +1,33 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Briefcase, Calendar, Building, Cpu } from 'lucide-react';
+import { Calendar, Building, Cpu } from 'lucide-react';
+import Reveal from './Reveal';
 
 export default function Experience({ lang, t }) {
   return (
     <section id="experience" style={{
-      padding: '80px 0',
+      padding: '90px 0',
       backgroundColor: 'var(--bg)',
       borderBottom: '1px solid var(--border)',
       position: 'relative',
-      transition: 'background-color 0.3s ease'
+      transition: 'background-color 0.4s ease'
     }}>
       <div className="container">
         
         {/* Section Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          marginBottom: '40px'
-        }}>
-          <div style={{ width: '12px', height: '12px', backgroundColor: 'var(--accent)' }} />
-          <h2 style={{ fontSize: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-white)' }}>
-            {t.title}
-          </h2>
-        </div>
+        <Reveal>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            marginBottom: '48px'
+          }}>
+            <div className="section-kicker" />
+            <h2 style={{ fontSize: '1.35rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-white)' }}>
+              {t.title}
+            </h2>
+          </div>
+        </Reveal>
 
         {/* Timeline Layout */}
         <div style={{
@@ -33,22 +36,25 @@ export default function Experience({ lang, t }) {
           margin: '0 auto',
           padding: '20px 0'
         }}>
-          {/* Vertical Timeline Center Line */}
-          <div style={{
-            position: 'absolute',
-            left: '20px',
-            top: 0,
-            bottom: 0,
-            width: '2px',
-            backgroundColor: 'var(--border)'
-          }} />
+          {/* Vertical Timeline Center Line (animated grow) */}
+          <motion.div
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 1, ease: 'easeOut' }}
+            style={{
+              position: 'absolute',
+              left: '20px',
+              top: 0,
+              bottom: 0,
+              width: '2px',
+              transformOrigin: 'top',
+              background: 'linear-gradient(to bottom, var(--accent), var(--border))'
+            }}
+          />
 
           {/* Timeline Item */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+          <Reveal direction="left" distance={50}
             style={{
               position: 'relative',
               paddingLeft: '60px',
@@ -56,26 +62,23 @@ export default function Experience({ lang, t }) {
             }}
           >
             {/* Timeline Orange Dot */}
-            <div style={{
+            <div className="pulse-dot" style={{
               position: 'absolute',
               left: '11px',
               top: '6px',
               width: '20px',
               height: '20px',
-              backgroundColor: '#000000',
               backgroundColor: 'var(--bg)',
               border: '4px solid var(--accent)',
-              borderRadius: '0px', // stark squares instead of circles fits minimalist theme
+              borderRadius: '6px',
               zIndex: 2,
-              transition: 'background-color 0.3s ease'
+              transition: 'background-color 0.4s ease'
             }} />
 
             {/* Experience Card */}
             <div className="glass-card" style={{
               padding: '32px',
-              backgroundColor: 'var(--card-bg)',
-              border: '1px solid var(--border)',
-              transition: 'border-color 0.3s ease'
+              backgroundColor: 'var(--card-bg)'
             }}>
               
               {/* Header Info */}
@@ -92,7 +95,7 @@ export default function Experience({ lang, t }) {
                     fontSize: '1.4rem', 
                     fontWeight: '800', 
                     color: 'var(--text-white)',
-                    marginBottom: '4px'
+                    marginBottom: '6px'
                   }}>
                     {t.role}
                   </h3>
@@ -112,9 +115,11 @@ export default function Experience({ lang, t }) {
                   gap: '6px',
                   border: '1px solid var(--accent)',
                   padding: '6px 12px',
+                  borderRadius: '999px',
                   fontSize: '0.8rem',
                   fontWeight: '700',
                   color: 'var(--accent)',
+                  backgroundColor: 'var(--accent-soft)',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em'
                 }}>
@@ -128,8 +133,9 @@ export default function Experience({ lang, t }) {
                 backgroundColor: 'var(--bg)',
                 padding: '16px',
                 borderLeft: '3px solid var(--accent)',
+                borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
                 marginBottom: '20px',
-                transition: 'background-color 0.3s ease'
+                transition: 'background-color 0.4s ease'
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                   <Cpu size={15} style={{ color: 'var(--accent)' }} />
@@ -153,33 +159,32 @@ export default function Experience({ lang, t }) {
               </p>
 
               {/* Technologies Used */}
-              <div>
-                <div style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  gap: '8px'
-                }}>
-                  {t.tech.map((techItem, index) => (
-                    <span 
-                      key={index} 
-                      style={{
-                        fontSize: '0.75rem',
-                        backgroundColor: 'var(--card-bg)',
-                        color: 'var(--text-white)',
-                        padding: '4px 10px',
-                        border: '1px solid var(--border)',
-                        fontWeight: '600',
-                        transition: 'background-color 0.3s ease'
-                      }}
-                    >
-                      {techItem}
-                    </span>
-                  ))}
-                </div>
+              <div style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: '8px'
+              }}>
+                {t.tech.map((techItem, index) => (
+                  <span 
+                    key={index} 
+                    style={{
+                      fontSize: '0.75rem',
+                      backgroundColor: 'var(--bg)',
+                      color: 'var(--text-white)',
+                      padding: '5px 12px',
+                      border: '1px solid var(--border)',
+                      borderRadius: '999px',
+                      fontWeight: '600',
+                      transition: 'background-color 0.4s ease'
+                    }}
+                  >
+                    {techItem}
+                  </span>
+                ))}
               </div>
 
             </div>
-          </motion.div>
+          </Reveal>
         </div>
 
       </div>

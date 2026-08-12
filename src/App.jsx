@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import SkillsMarquee from './components/SkillsMarquee';
 import ThreeDVideoScroll from './components/ThreeDVideoScroll';
 import Experience from './components/Experience';
@@ -102,7 +103,8 @@ function App() {
         left: 0,
         height: '4px',
         width: `${scrollProgress}%`,
-        backgroundColor: 'var(--accent)',
+        background: 'var(--grad-accent)',
+        boxShadow: '0 0 12px var(--accent-glow)',
         zIndex: 1000,
         transition: 'width 0.1s ease-out'
       }} />
@@ -143,6 +145,7 @@ function App() {
             {/* Navigation links */}
             <nav className="desktop-nav" style={{ display: 'flex', gap: '24px' }}>
               <span 
+                className="nav-link"
                 onClick={() => scrollToSection('projects')}
                 style={{
                   fontSize: '0.85rem',
@@ -159,6 +162,7 @@ function App() {
                 {t.nav.projects}
               </span>
               <span 
+                className="nav-link"
                 onClick={() => scrollToSection('marquee')}
                 style={{
                   fontSize: '0.85rem',
@@ -175,6 +179,7 @@ function App() {
                 {t.nav.skills}
               </span>
               <span 
+                className="nav-link"
                 onClick={() => scrollToSection('experience')}
                 style={{
                   fontSize: '0.85rem',
@@ -191,6 +196,7 @@ function App() {
                 {t.nav.experience}
               </span>
               <span 
+                className="nav-link"
                 onClick={() => scrollToSection('contact')}
                 style={{
                   fontSize: '0.85rem',
@@ -217,15 +223,16 @@ function App() {
                   border: '1px solid var(--border)',
                   color: 'var(--text-white)',
                   cursor: 'pointer',
-                  padding: '6px',
+                  padding: '8px',
+                  borderRadius: '10px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   backgroundColor: 'var(--card-bg)',
                   transition: 'all 0.3s ease'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
-                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color = 'var(--text-white)'; }}
                 title={theme === 'dark' ? (lang === 'ID' ? 'Mode Terang' : 'Light Mode') : (lang === 'ID' ? 'Mode Gelap' : 'Dark Mode')}
               >
                 {theme === 'dark' ? <Sun size={15} /> : <Moon size={15} />}
@@ -237,7 +244,8 @@ function App() {
                 alignItems: 'center', 
                 gap: '6px',
                 border: '1px solid var(--border)',
-                padding: '4px 8px',
+                padding: '5px 10px',
+                borderRadius: '10px',
                 backgroundColor: 'var(--card-bg)',
                 transition: 'all 0.3s ease'
               }}>
@@ -284,7 +292,8 @@ function App() {
                 border: '1px solid var(--border)',
                 color: 'var(--text-white)',
                 cursor: 'pointer',
-                padding: '6px',
+                padding: '8px',
+                borderRadius: '10px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -302,8 +311,14 @@ function App() {
       </header>
 
       {/* Mobile Drawer Menu */}
+      <AnimatePresence>
       {menuOpen && (
-        <div style={{
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          style={{
           position: 'fixed',
           top: '73px', // matches header height
           left: 0,
@@ -342,8 +357,9 @@ function App() {
           >
             {t.nav.contact}
           </span>
-        </div>
+        </motion.div>
       )}
+      </AnimatePresence>
 
       {/* Main Content */}
       <main>
@@ -406,31 +422,39 @@ function App() {
       </footer>
 
       {/* Scroll to Top */}
-      {showScrollTop && (
-        <button
-          onClick={scrollToTop}
-          style={{
-            position: 'fixed',
-            bottom: '30px',
-            right: '30px',
-            width: '44px',
-            height: '44px',
-            backgroundColor: 'var(--accent)',
-            color: 'var(--text-black)',
-            border: 'none',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 99,
-            transition: 'all 0.2s'
-          }}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--text-white)'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--accent)'}
-        >
-          <ArrowUp size={20} strokeWidth={2.5} />
-        </button>
-      )}
+      <AnimatePresence>
+        {showScrollTop && (
+          <motion.button
+            onClick={scrollToTop}
+            initial={{ opacity: 0, scale: 0.5, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.5, y: 20 }}
+            whileHover={{ scale: 1.1, y: -3 }}
+            whileTap={{ scale: 0.92 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 20 }}
+            style={{
+              position: 'fixed',
+              bottom: '30px',
+              right: '30px',
+              width: '48px',
+              height: '48px',
+              background: 'var(--grad-accent)',
+              color: 'var(--text-black)',
+              border: 'none',
+              borderRadius: '14px',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              zIndex: 99,
+              boxShadow: '0 10px 30px -8px var(--accent-glow)'
+            }}
+            aria-label="Scroll to top"
+          >
+            <ArrowUp size={20} strokeWidth={2.5} />
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Vercel Performance & Visitor Analytics */}
       <SpeedInsights />

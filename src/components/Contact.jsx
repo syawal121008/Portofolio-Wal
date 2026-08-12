@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Github, Send, ArrowUpRight, Instagram } from 'lucide-react';
+import Reveal from './Reveal';
 
 
 export default function Contact({ lang, t }) {
@@ -20,25 +21,27 @@ export default function Contact({ lang, t }) {
 
   return (
     <section id="contact" style={{
-      padding: '80px 0',
+      padding: '90px 0',
       backgroundColor: 'var(--bg)',
       position: 'relative',
-      transition: 'background-color 0.3s ease'
+      transition: 'background-color 0.4s ease'
     }}>
       <div className="container">
         
         {/* Section Header */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '12px',
-          marginBottom: '40px'
-        }}>
-          <div style={{ width: '12px', height: '12px', backgroundColor: 'var(--accent)' }} />
-          <h2 style={{ fontSize: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-white)' }}>
-            {t.title}
-          </h2>
-        </div>
+        <Reveal>
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            marginBottom: '48px'
+          }}>
+            <div className="section-kicker" />
+            <h2 style={{ fontSize: '1.35rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-white)' }}>
+              {t.title}
+            </h2>
+          </div>
+        </Reveal>
 
         <div style={{
           display: 'grid',
@@ -90,11 +93,12 @@ export default function Contact({ lang, t }) {
                   textDecoration: 'none',
                   padding: '16px',
                   border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-sm)',
                   backgroundColor: 'var(--card-bg)',
-                  transition: 'border-color 0.2s'
+                  transition: 'border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
-                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.transform = 'translateX(6px)'; e.currentTarget.style.boxShadow = 'var(--shadow-soft)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateX(0)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
                 <Mail size={20} style={{ color: 'var(--accent)' }} />
                 <div style={{ textAlign: 'left' }}>
@@ -116,11 +120,12 @@ export default function Contact({ lang, t }) {
                   textDecoration: 'none',
                   padding: '16px',
                   border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-sm)',
                   backgroundColor: 'var(--card-bg)',
-                  transition: 'border-color 0.2s'
+                  transition: 'border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
-                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.transform = 'translateX(6px)'; e.currentTarget.style.boxShadow = 'var(--shadow-soft)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateX(0)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
                 <Github size={20} style={{ color: 'var(--accent)' }} />
                 <div style={{ textAlign: 'left' }}>
@@ -142,11 +147,12 @@ export default function Contact({ lang, t }) {
                   textDecoration: 'none',
                   padding: '16px',
                   border: '1px solid var(--border)',
+                  borderRadius: 'var(--radius-sm)',
                   backgroundColor: 'var(--card-bg)',
-                  transition: 'border-color 0.2s'
+                  transition: 'border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
-                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.transform = 'translateX(6px)'; e.currentTarget.style.boxShadow = 'var(--shadow-soft)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateX(0)'; e.currentTarget.style.boxShadow = 'none'; }}
               >
                 <Instagram size={20} style={{ color: 'var(--accent)' }} />
                 <div style={{ textAlign: 'left' }}>
@@ -172,7 +178,9 @@ export default function Contact({ lang, t }) {
               gap: '20px',
               padding: '32px',
               border: '1px solid var(--border)',
-              backgroundColor: 'var(--card-bg)'
+              borderRadius: 'var(--radius)',
+              backgroundColor: 'var(--card-bg)',
+              boxShadow: 'var(--shadow-soft)'
             }}>
               <div>
                 <label style={{
@@ -196,10 +204,11 @@ export default function Contact({ lang, t }) {
                     padding: '12px',
                     backgroundColor: 'var(--input-bg)',
                     border: '1px solid var(--border-light)',
+                    borderRadius: 'var(--radius-sm)',
                     color: 'var(--text-white)',
                     fontFamily: 'var(--font-sans)',
                     fontSize: '0.9rem',
-                    transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease'
+                    transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease'
                   }}
                 />
               </div>
@@ -226,10 +235,11 @@ export default function Contact({ lang, t }) {
                     padding: '12px',
                     backgroundColor: 'var(--input-bg)',
                     border: '1px solid var(--border-light)',
+                    borderRadius: 'var(--radius-sm)',
                     color: 'var(--text-white)',
                     fontFamily: 'var(--font-sans)',
                     fontSize: '0.9rem',
-                    transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease'
+                    transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease'
                   }}
                 />
               </div>
@@ -256,11 +266,12 @@ export default function Contact({ lang, t }) {
                     padding: '12px',
                     backgroundColor: 'var(--input-bg)',
                     border: '1px solid var(--border-light)',
+                    borderRadius: 'var(--radius-sm)',
                     color: 'var(--text-white)',
                     fontFamily: 'var(--font-sans)',
                     fontSize: '0.9rem',
                     resize: 'none',
-                    transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease'
+                    transition: 'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease'
                   }}
                 />
               </div>

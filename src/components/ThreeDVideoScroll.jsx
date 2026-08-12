@@ -103,11 +103,25 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
         justifyContent: 'center',
         padding: '60px 0 40px 0',
         position: 'relative',
+        overflow: 'hidden',
         backgroundColor: 'var(--bg)',
         borderBottom: '1px solid var(--border)',
         transition: 'background-color 0.3s ease'
       }}>
-        <div className="container">
+        {/* Aurora glow accent */}
+        <div style={{
+          position: 'absolute',
+          top: '-10%',
+          right: '-20%',
+          width: '380px',
+          height: '380px',
+          background: 'radial-gradient(circle, var(--accent-glow), transparent 70%)',
+          filter: 'blur(20px)',
+          animation: 'aurora 12s ease-in-out infinite',
+          pointerEvents: 'none',
+          zIndex: 0
+        }} />
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <motion.div
             key={lang}
             initial={{ opacity: 0, y: 20 }}
@@ -120,7 +134,9 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
               alignItems: 'center',
               gap: '8px',
               border: '1px solid var(--accent)',
-              padding: '6px 12px',
+              padding: '7px 14px',
+              borderRadius: '999px',
+              backgroundColor: 'var(--accent-soft)',
               fontSize: '0.8rem',
               fontWeight: '600',
               color: 'var(--accent)',
@@ -128,7 +144,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
               textTransform: 'uppercase',
               letterSpacing: '0.05em'
             }}>
-              <span style={{
+              <span className="pulse-dot" style={{
                 width: '6px',
                 height: '6px',
                 backgroundColor: 'var(--accent)',
@@ -147,7 +163,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
               color: 'var(--text-white)'
             }}>
               {heroT.greeting} <br />
-              <span style={{ color: 'var(--accent)' }}>Syawaludin Alhabsy</span>
+              <span className="text-gradient">Syawaludin Alhabsy</span>
             </h1>
 
             {/* Subtitle */}
@@ -305,14 +321,15 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                   alignItems: 'center',
                   gap: '8px',
                   border: '1px solid var(--accent)',
-                  padding: '6px 12px',
+                  padding: '7px 14px',
+                  borderRadius: '999px',
                   fontSize: '0.85rem',
                   fontWeight: '600',
                   color: 'var(--accent)',
                   marginBottom: '24px',
                   textTransform: 'uppercase',
                   letterSpacing: '0.05em',
-                  backgroundColor: 'rgba(0,0,0,0.6)'
+                  backgroundColor: 'rgba(0,0,0,0.55)'
                 }}>
                   <span style={{
                     width: '6px',
@@ -334,7 +351,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                   textShadow: '0 4px 12px rgba(0,0,0,0.7)'
                 }}>
                   {heroT.greeting} <br />
-                  <span style={{ color: 'var(--accent)' }}>Syawaludin Alhabsy</span>
+                  <span className="text-gradient">Syawaludin Alhabsy</span>
                 </h1>
 
                 {/* Subtitle */}

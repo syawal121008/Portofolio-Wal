@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Github, ExternalLink, X, Code, ShieldCheck } from 'lucide-react';
+import Reveal from './Reveal';
 
 export default function ProjectsSection({ lang, t }) {
   const scrollRef = useRef(null);
@@ -20,84 +21,80 @@ export default function ProjectsSection({ lang, t }) {
     }
   };
 
+  const navBtn = {
+    width: '46px',
+    height: '46px',
+    backgroundColor: 'var(--card-bg)',
+    border: '1px solid var(--border-light)',
+    color: 'var(--text-white)',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: '999px',
+    transition: 'all 0.25s'
+  };
+
   return (
     <section id="projects" style={{
-      padding: '80px 0',
+      padding: '90px 0',
       backgroundColor: 'var(--bg)',
       borderBottom: '1px solid var(--border)',
       position: 'relative',
-      transition: 'background-color 0.3s ease'
+      transition: 'background-color 0.4s ease'
     }}>
       <div className="container" style={{ position: 'relative' }}>
         
         {/* Section Header with Navigation Arrows */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'flex-end',
-          marginBottom: '40px'
-        }}>
-          <div>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              marginBottom: '8px'
-            }}>
-              <div style={{ width: '12px', height: '12px', backgroundColor: 'var(--accent)' }} />
-              <h2 style={{ fontSize: '1.25rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-white)' }}>
-                {t.title}
-              </h2>
+        <Reveal>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'flex-end',
+            marginBottom: '48px',
+            gap: '20px',
+            flexWrap: 'wrap'
+          }}>
+            <div>
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '12px',
+                marginBottom: '10px'
+              }}>
+                <div className="section-kicker" />
+                <h2 style={{ fontSize: '1.35rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-white)' }}>
+                  {t.title}
+                </h2>
+              </div>
+              <p style={{ fontSize: '0.95rem', color: 'var(--text)', maxWidth: '520px', lineHeight: 1.6 }}>
+                {t.desc}
+              </p>
             </div>
-            <p style={{ fontSize: '0.9rem', color: 'var(--text)' }}>
-              {t.desc}
-            </p>
-          </div>
 
-          {/* Navigation Controls */}
-          <div style={{ display: 'flex', gap: '8px' }}>
-            <button 
-              onClick={() => scroll('left')} 
-              style={{
-                width: '44px',
-                height: '44px',
-                backgroundColor: 'transparent',
-                border: '1px solid var(--border-light)',
-                color: 'var(--text-white)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
-              onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border-light)'}
-              title={lang === 'ID' ? 'Geser Kiri' : 'Scroll Left'}
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button 
-              onClick={() => scroll('right')} 
-              style={{
-                width: '44px',
-                height: '44px',
-                backgroundColor: 'transparent',
-                border: '1px solid var(--border-light)',
-                color: 'var(--text-white)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
-              onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border-light)'}
-              title={lang === 'ID' ? 'Geser Kanan' : 'Scroll Right'}
-            >
-              <ChevronRight size={20} />
-            </button>
+            {/* Navigation Controls */}
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button 
+                onClick={() => scroll('left')} 
+                style={navBtn}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-light)'; e.currentTarget.style.color = 'var(--text-white)'; }}
+                title={lang === 'ID' ? 'Geser Kiri' : 'Scroll Left'}
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button 
+                onClick={() => scroll('right')} 
+                style={navBtn}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.color = 'var(--accent)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--border-light)'; e.currentTarget.style.color = 'var(--text-white)'; }}
+                title={lang === 'ID' ? 'Geser Kanan' : 'Scroll Right'}
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
           </div>
-        </div>
+        </Reveal>
 
         {/* Horizontal scrollable track */}
         <div 
@@ -112,11 +109,15 @@ export default function ProjectsSection({ lang, t }) {
             scrollbarColor: 'var(--accent) var(--bg)',
           }}
         >
-          {t.list.map((proj) => (
-            <div 
+          {t.list.map((proj, idx) => (
+            <motion.div 
               key={proj.id}
               className="horizontal-scroll-item glass-card"
               onClick={() => setSelectedProjId(proj.id)}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.55, delay: Math.min(idx * 0.08, 0.4), ease: [0.16, 1, 0.3, 1] }}
               style={{
                 width: 'clamp(280px, 80vw, 380px)',
                 padding: '32px',
@@ -133,7 +134,8 @@ export default function ProjectsSection({ lang, t }) {
                 <div style={{
                   height: '4px',
                   width: '40px',
-                  backgroundColor: 'var(--accent)',
+                  background: 'var(--grad-accent)',
+                  borderRadius: '999px',
                   marginBottom: '24px'
                 }} />
 
@@ -177,17 +179,18 @@ export default function ProjectsSection({ lang, t }) {
                   flexWrap: 'wrap',
                   gap: '6px'
                 }}>
-                  {proj.tech.slice(0, 3).map((techTag, idx) => (
+                  {proj.tech.slice(0, 3).map((techTag, tIdx) => (
                     <span 
-                      key={idx} 
+                      key={tIdx} 
                       style={{
                         fontSize: '0.7rem',
-                        backgroundColor: 'var(--card-bg)',
+                        backgroundColor: 'var(--bg)',
                         color: 'var(--text-white)',
-                        padding: '4px 8px',
+                        padding: '4px 10px',
                         border: '1px solid var(--border)',
+                        borderRadius: '999px',
                         fontWeight: '600',
-                        transition: 'background-color 0.3s ease'
+                        transition: 'background-color 0.4s ease'
                       }}
                     >
                       {techTag}
@@ -200,7 +203,7 @@ export default function ProjectsSection({ lang, t }) {
                   )}
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
@@ -224,24 +227,28 @@ export default function ProjectsSection({ lang, t }) {
               alignItems: 'center',
               justifyContent: 'center',
               padding: '20px',
-              backdropFilter: 'blur(4px)',
-              transition: 'background-color 0.3s ease'
+              backdropFilter: 'blur(6px)',
+              transition: 'background-color 0.4s ease'
             }}
             onClick={() => setSelectedProjId(null)}
           >
             <motion.div 
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
+              initial={{ scale: 0.95, y: 20, opacity: 0 }}
+              animate={{ scale: 1, y: 0, opacity: 1 }}
+              exit={{ scale: 0.95, y: 20, opacity: 0 }}
               transition={{ type: 'spring', damping: 25, stiffness: 350 }}
               style={{
                 width: '100%',
                 maxWidth: '600px',
-                backgroundColor: 'var(--bg)',
-                border: '2px solid var(--accent)',
+                backgroundColor: 'var(--bg-elevated)',
+                border: '1px solid var(--accent)',
+                borderRadius: 'var(--radius)',
+                boxShadow: 'var(--shadow-glow)',
                 padding: '40px',
                 position: 'relative',
-                transition: 'background-color 0.3s ease'
+                maxHeight: '90vh',
+                overflowY: 'auto',
+                transition: 'background-color 0.4s ease'
               }}
               onClick={(e) => e.stopPropagation()}
             >
@@ -252,17 +259,22 @@ export default function ProjectsSection({ lang, t }) {
                   position: 'absolute',
                   top: '20px',
                   right: '20px',
-                  background: 'transparent',
-                  border: 'none',
+                  background: 'var(--card-bg)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '999px',
                   color: 'var(--text-white)',
                   cursor: 'pointer',
-                  padding: '4px'
+                  padding: '6px',
+                  display: 'flex',
+                  transition: 'all 0.2s'
                 }}
+                onMouseEnter={(e) => e.currentTarget.style.borderColor = 'var(--accent)'}
+                onMouseLeave={(e) => e.currentTarget.style.borderColor = 'var(--border)'}
               >
-                <X size={24} />
+                <X size={20} />
               </button>
 
-              <div style={{ marginBottom: '32px' }}>
+              <div style={{ marginBottom: '32px', paddingRight: '40px' }}>
                 <span style={{ 
                   fontSize: '0.8rem', 
                   color: 'var(--accent)', 
@@ -308,7 +320,7 @@ export default function ProjectsSection({ lang, t }) {
                   </div>
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
                     {selectedProj.tech.map((techTag, idx) => (
-                      <span key={idx} style={{ fontSize: '0.75rem', backgroundColor: 'var(--card-bg)', color: 'var(--text-white)', padding: '2px 8px', border: '1px solid var(--border)', transition: 'background-color 0.3s ease' }}>{techTag}</span>
+                      <span key={idx} style={{ fontSize: '0.75rem', backgroundColor: 'var(--card-bg)', color: 'var(--text-white)', padding: '3px 10px', border: '1px solid var(--border)', borderRadius: '999px', transition: 'background-color 0.4s ease' }}>{techTag}</span>
                     ))}
                   </div>
                 </div>
@@ -324,7 +336,7 @@ export default function ProjectsSection({ lang, t }) {
               </div>
 
               {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '12px' }}>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
                 <a 
                   href={selectedProj.github} 
                   target="_blank" 
