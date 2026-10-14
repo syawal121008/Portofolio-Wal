@@ -6,7 +6,11 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  // Determine the initial layout before the first render so mobile doesn't
+  // briefly render the desktop video hero.
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== 'undefined' && window.innerWidth <= 768
+  );
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -22,24 +26,25 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+  // Only attach video/scroll work while the desktop video is mounted.
+  // Re-run when the layout crosses the mobile breakpoint.
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || isMobile) return;
+    if (!video || isMobile) return undefined;
 
     const handleLoadedMetadata = () => {
       video.currentTime = 0;
     };
-    
+
     video.addEventListener('loadedmetadata', handleLoadedMetadata);
 
     let animationFrameId;
 
     const handleScroll = () => {
-      if (!containerRef.current || !video || isNaN(video.duration)) return;
+      if (!containerRef.current || !video || !Number.isFinite(video.duration) || video.duration <= 0) return;
 
       const rect = containerRef.current.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      
       const scrolled = -rect.top;
       const totalScrollable = rect.height - windowHeight;
 
@@ -51,7 +56,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
       setScrollProgress(progress);
 
       const updateVideoTime = () => {
-        if (video) {
+        if (video && Number.isFinite(video.duration) && video.duration > 0) {
           const targetTime = progress * video.duration;
           if (Math.abs(video.currentTime - targetTime) > 0.04) {
             video.currentTime = targetTime;
@@ -63,27 +68,27 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
       animationFrameId = requestAnimationFrame(updateVideoTime);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
 
     return () => {
       video.removeEventListener('loadedmetadata', handleLoadedMetadata);
       window.removeEventListener('scroll', handleScroll);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId !== undefined) cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [isMobile]);
 
   // Text overlays for phases 2, 3, 4
   const overlays = {
     ID: [
-      { text: "Menciptakan Solusi Tanpa Batas", peak: 0.45 },
-      { text: "Teknologi Menghubungkan Ide", peak: 0.70 },
-      { text: "Menyongsong Masa Depan Digital", peak: 0.92 }
+      { text: 'Menciptakan Solusi Tanpa Batas', peak: 0.45 },
+      { text: 'Teknologi Menghubungkan Ide', peak: 0.70 },
+      { text: 'Menyongsong Masa Depan Digital', peak: 0.92 }
     ],
     EN: [
-      { text: "Crafting Solutions Without Boundaries", peak: 0.45 },
-      { text: "Technology Connecting Ideas", peak: 0.70 },
-      { text: "Welcoming the Digital Future", peak: 0.92 }
+      { text: 'Crafting Solutions Without Boundaries', peak: 0.45 },
+      { text: 'Technology Connecting Ideas', peak: 0.70 },
+      { text: 'Welcoming the Digital Future', peak: 0.92 }
     ]
   };
 
@@ -93,7 +98,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
   const heroOpacity = Math.max(0, 1 - scrollProgress * 5);
   const heroTranslateY = -scrollProgress * 150; // slide up slightly
 
-  // If on mobile (<= 768px), render a clean static Hero layout matching user request
+  // Mobile uses a static hero and never mounts the large background video.
   if (isMobile) {
     return (
       <section style={{
@@ -221,8 +226,8 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
   }
 
   return (
-    <div 
-      ref={containerRef} 
+    <div
+      ref={containerRef}
       style={{
         position: 'relative',
         height: '300vh', // long scroll track for smooth pacing
@@ -242,14 +247,15 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
         justifyContent: 'center',
         backgroundColor: '#000000'
       }}>
-        {/* Full HD 3D Video Background */}
+        {/* Desktop cinematic video background. Metadata preload avoids eagerly
+            downloading the entire large MP4 before it is needed. */}
         <video
           ref={videoRef}
           src="/assets/scenery-3d.mp4"
           type="video/mp4"
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           style={{
             width: '100%',
             height: '100%',
@@ -267,14 +273,14 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.55)', // Stark dimglass
+          backgroundColor: 'rgba(0, 0, 0, 0.55)',
           pointerEvents: 'none',
           zIndex: 1
         }} />
 
         {/* Phase 1: Hero Section Overlay (only visible at the top) */}
         {heroOpacity > 0.01 && (
-          <div 
+          <div
             style={{
               position: 'absolute',
               top: 0,
@@ -407,7 +413,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
             </div>
 
             {/* Downward Scroll Indicator */}
-            <div 
+            <div
               style={{
                 position: 'absolute',
                 bottom: '24px',
@@ -423,13 +429,13 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                 letterSpacing: '0.1em',
                 cursor: 'pointer',
                 color: '#FFFFFF'
-              }} 
+              }}
               onClick={() => scrollToSection('marquee')}
             >
               <span>{heroT.scroll_down}</span>
               <motion.div
                 animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                 style={{
                   width: '2px',
                   height: '24px',
@@ -444,7 +450,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
         {activeOverlays.map((item, index) => {
           // Calculate opacity based on peak scroll progress
           const distance = Math.abs(scrollProgress - item.peak);
-          const opacity = Math.max(0, 1 - distance * 6); // fast fade in/out
+          const opacity = Math.max(0, 1 - distance * 6);
 
           return (
             <div
@@ -454,7 +460,7 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                 width: '100%',
                 textAlign: 'center',
                 padding: '0 24px',
-                opacity: opacity,
+                opacity,
                 visibility: opacity > 0.01 ? 'visible' : 'hidden',
                 pointerEvents: 'none',
                 transition: 'opacity 0.08s linear, visibility 0.08s linear',
@@ -473,8 +479,8 @@ export default function ThreeDVideoScroll({ lang, heroT }) {
                 {item.text.split(' ').map((word, wIdx) => {
                   const isLastWord = wIdx === item.text.split(' ').length - 1;
                   return (
-                    <span 
-                      key={wIdx} 
+                    <span
+                      key={wIdx}
                       style={{ color: isLastWord ? 'var(--accent)' : 'inherit' }}
                     >
                       {word}{' '}
